@@ -6,7 +6,7 @@ C_SET =
 
 CC = gcc-5
 LINK = gcc
-CODE_FLAGS = -m64 -march=athlon64 -fno-exceptions -fno-rtti -pedantic -Wall \
+CODE_FLAGS = -m64 -march=corei7-avx -fno-exceptions -fno-rtti -pedantic -Wall \
 	-Wno-unknown-pragmas
 LIBS = 	
 
