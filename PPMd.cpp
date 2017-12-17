@@ -344,7 +344,7 @@ int main(int argc, char *argv[])
     char ArcName[260];
     BOOL DeleteFile=FALSE, CutOff=FALSE;
     int i, MaxOrder=4, SASize=10;
-    printf("Fast PPMII compressor for textual data, variant %c, "__DATE__"\n",PROG_VAR);
+    printf("Fast PPMII compressor for textual data, variant %c, " __DATE__ "\n",PROG_VAR);
     if (argc < 3) { printf(MTxt[6],SASize,MAX_O,MaxOrder);      return -1; }
     switch ( toupper(argv[1][0]) ) {
         case 'E': EncodeFlag=TRUE;                              break;
