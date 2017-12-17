@@ -65,13 +65,18 @@ static _THREAD1 BYTE _THREAD EscCount, _THREAD PrintCount;
 static _THREAD1 WORD _THREAD BinSumm[25][64];           // binary SEE-contexts
 static _THREAD1 BOOL _THREAD CutOff;
 
-inline void SWAP(PPM_CONTEXT::STATE& s1,PPM_CONTEXT::STATE& s2) {
-    _WORD t1=(_WORD&)s1;                    _DWORD t2=s1.iSuccessor;
-    (_WORD&)s1 = (_WORD&)s2;                s1.iSuccessor=s2.iSuccessor;
-    (_WORD&)s2 = t1;                        s2.iSuccessor=t2;
+/// this modification is required in order not to confuse gcc. ///
+namespace std{
+void swap(PPM_CONTEXT::STATE& s1,PPM_CONTEXT::STATE& s2) {
+	swap(s1.iSuccessor,s2.iSuccessor);
+	swap(s1.Symbol,s2.Symbol);
+	swap(s1.Freq,s2.Freq);
+}
 }
 inline void StateCpy(PPM_CONTEXT::STATE& s1,const PPM_CONTEXT::STATE& s2) {
-    (_WORD&)s1 = (_WORD&)s2;                s1.iSuccessor=s2.iSuccessor;
+	s1.iSuccessor=s2.iSuccessor;
+	s1.Symbol=s2.Symbol;
+	s1.Freq=s2.Freq;
 }
 void SEE2_CONTEXT::setShift_rare()
 {

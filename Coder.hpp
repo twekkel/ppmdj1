@@ -60,12 +60,14 @@ static _THREAD1 struct SUBRANGE { DWORD low, high, scale; } _THREAD Range;
 static _THREAD1 DWORD _THREAD low, _THREAD code, _THREAD range;
 
 inline void rcInitEncoder() { low=0; range=DWORD(-1); }
-#define RC_ENC_NORMALIZE(stream) {                                          \
-    while ((low ^ (low+range)) < TOP || range < BOT &&                      \
-            ((range= -low & (BOT-1)),1)) {                                  \
-        _PPMD_E_PUTC(low >> 24,stream);                                     \
-        range <<= 8;                        low <<= 8;                      \
-    }                                                                       \
+inline void RC_ENC_NORMALIZE(FILE *stream) {
+	for(;;){
+		if((low ^ (low+range)) < TOP);
+		else if(range < BOT)range= -low & (BOT-1);
+		else break;
+		_PPMD_E_PUTC(low >> 24,stream);
+		range <<= 8;                        low <<= 8;
+	}
 }
 inline void rcEncodeSymbol()
 {
@@ -83,12 +85,14 @@ inline void rcInitDecoder(FILE* stream)
     for (UINT i=0;i < 4;i++)
             code=(code << 8) | _PPMD_D_GETC(stream);
 }
-#define RC_DEC_NORMALIZE(stream) {                                          \
-    while ((low ^ (low+range)) < TOP || range < BOT &&                      \
-            ((range= -low & (BOT-1)),1)) {                                  \
-        code=(code << 8) | _PPMD_D_GETC(stream);                            \
-        range <<= 8;                        low <<= 8;                      \
-    }                                                                       \
+inline void RC_DEC_NORMALIZE(FILE *stream) {
+	for(;;){
+		if((low ^ (low+range)) < TOP);
+		else if(range < BOT)range= -low & (BOT-1);
+		else break;
+		code=(code << 8) | _PPMD_D_GETC(stream);
+		range <<= 8;                        low <<= 8;
+	}
 }
 inline UINT rcGetCurrentCount() { return (code-low)/(range /= Range.scale); }
 inline void rcRemoveSubrange()

@@ -11,7 +11,7 @@ CODE_FLAGS = -m64 -march=athlon64 -fno-exceptions -fno-rtti -pedantic -Wall \
 LIBS = 	
 
 ifeq ($(DEBUG),0)
-  OPT_FLAGS = -O1 -ffast-math -funroll-all-loops -floop-optimize
+  OPT_FLAGS = -O3 -ffast-math -funroll-all-loops -floop-optimize
   DEBUG_FLAGS = -g0
   LD_FLAGS = -s -O3
 else

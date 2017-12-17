@@ -11,10 +11,12 @@
 #include <stdio.h>
 #include <assert.h>
 
+//Let files to be processed by the shell.
+
 //#define _WIN32_ENVIRONMENT_
 //#define _DOS32_ENVIRONMENT_
-#define _POSIX_ENVIRONMENT_
-//#define _UNKNOWN_ENVIRONMENT_
+//#define _POSIX_ENVIRONMENT_
+#define _UNKNOWN_ENVIRONMENT_
 #if defined(_WIN32_ENVIRONMENT_)+defined(_DOS32_ENVIRONMENT_)+defined(_POSIX_ENVIRONMENT_)+defined(_UNKNOWN_ENVIRONMENT_) != 1
 #error Only one environment must be defined
 #endif /* defined(_WIN32_ENVIRONMENT_)+defined(_DOS32_ENVIRONMENT_)+defined(_POSIX_ENVIRONMENT_)+defined(_UNKNOWN_ENVIRONMENT_) != 1 */
@@ -98,15 +100,17 @@ enum { PROG_VAR='J', MAX_O=16 };            /* maximum allowed model order  */
 
 template <class T>
 inline T CLAMP(const T& X,const T& LoX,const T& HiX) { return (X >= LoX)?((X <= HiX)?(X):(HiX)):(LoX); }
-template <class T>
-inline void SWAP(T& t1,T& t2) { T tmp=t1; t1=t2; t2=tmp; }
+//template <class T>
+//inline void SWAP(T& t1,T& t2) { T tmp=t1; t1=t2; t2=tmp; }
+#include <algorithm>
+#define SWAP std::swap
 
 /* PPMd module works with file streams via ...GETC/...PUTC macros only      */
 typedef FILE _PPMD_FILE;
-#define _PPMD_E_GETC(fp)   getc(fp)
-#define _PPMD_E_PUTC(c,fp) putc((c),fp)
-#define _PPMD_D_GETC(fp)   getc(fp)
-#define _PPMD_D_PUTC(c,fp) putc((c),fp)
+#define _PPMD_E_GETC(fp)   fgetc(fp)
+#define _PPMD_E_PUTC(c,fp) fputc((c),fp)
+#define _PPMD_D_GETC(fp)   fgetc(fp)
+#define _PPMD_D_PUTC(c,fp) fputc((c),fp)
 /******************  Example of C++ buffered stream  ************************
 class PRIME_STREAM {
 public:
