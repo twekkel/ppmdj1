@@ -28,7 +28,7 @@ typedef int   BOOL;
 typedef unsigned char  BYTE;                // it must be equal to uint8_t
 typedef unsigned short WORD;                // it must be equal to uint16_t
 typedef unsigned int  DWORD;                // it must be equal to uint32_t
-typedef unsigned long QWORD;                // it must be equal to uint64_t
+typedef unsigned long long QWORD;                // it must be equal to uint64_t
 typedef unsigned int   UINT;
 #endif /* defined(_WIN32_ENVIRONMENT_)  */
                         /* Optimal definitions for processors:              */
