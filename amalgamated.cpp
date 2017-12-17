@@ -1415,7 +1415,7 @@ int _main(int argc, const char *argv[])
 #include <algorithm>
 #include <unistd.h>
 int main_wrap(const std::vector<std::string> &args){
-	const char **argv=(const char**)calloc(sizeof(char*)*(args.size()+1),0);
+	const char **argv=(const char**)calloc(sizeof(char*),args.size()+1);
 	for(int i=0;i<args.size();i++)argv[i]=args[i].c_str();
 	int ret=_main(args.size(),argv);
 	free(argv);
@@ -1428,7 +1428,7 @@ int main(){
 	if(mode=="encode"){
 		int N;
 		std::cin>>N;
-		std::vector<std::string>v={"PPMd","e","-m1536","-o3","-f"+arcname};
+		std::vector<std::string>v={"PPMd","e","-m2048","-o3","-f"+arcname};
 		std::vector<std::pair<std::string,int>>args(N);
 		for(int i=0;i<N;i++)std::cin>>args[i].first>>args[i].second;
 		sort(args.begin(),args.end());
