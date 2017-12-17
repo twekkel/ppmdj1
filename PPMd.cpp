@@ -231,7 +231,7 @@ inline BOOL RemoveFile(const char* FName)
 }
 static BOOL _STDCALL TestAccessRare(const char* FName)
 {
-static BOOL YesToAll=FALSE;
+static BOOL YesToAll=TRUE;
     FILE* fp=fopen(FName,"rb");
     if ( !fp )                              return TRUE;
     fclose(fp);
@@ -249,7 +249,7 @@ static FILE* FOpen(const char* FName,const char* mode)
 {
     FILE* fp=fopen(FName,mode);
     if ( !fp ) { printf(MTxt[0],FName);     exit(-1); }
-    setvbuf(fp,NULL,_IOFBF,64*1024);        return fp;
+    setvbuf(fp,NULL,_IOFBF,1024*1024);        return fp;
 }
 inline void PrepareCoding(int SASize,FILE* fp)
 {

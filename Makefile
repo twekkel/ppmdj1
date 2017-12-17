@@ -4,14 +4,14 @@ DEBUG = 0
 CPP_SET = $(PROJECT).cpp Model.cpp
 C_SET =
 
-CC = gcc
+CC = gcc-7
 LINK = gcc
 CODE_FLAGS = -m64 -march=athlon64 -fno-exceptions -fno-rtti -pedantic -Wall \
 	-Wno-unknown-pragmas -Wno-sign-compare -Wno-conversion
 LIBS = 	
 
 ifeq ($(DEBUG),0)
-  OPT_FLAGS = -O2 -funroll-all-loops -floop-optimize
+  OPT_FLAGS = -O1 -funroll-all-loops -floop-optimize
   DEBUG_FLAGS = -g0
   LD_FLAGS = -s -O3
 else
