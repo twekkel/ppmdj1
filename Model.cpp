@@ -548,7 +548,7 @@ inline void PPM_CONTEXT::decodeSymbol2()
 inline void ClearMask(_PPMD_FILE* EncodedFile,_PPMD_FILE* DecodedFile)
 {
     EscCount=1;                             memset(CharMask,0,sizeof(CharMask));
-    if (++PrintCount == 0)                  PrintInfo(DecodedFile,EncodedFile);
+    //if (++PrintCount == 0)                  PrintInfo(DecodedFile,EncodedFile);
 }
 void _STDCALL EncodeFile(_PPMD_FILE* EncodedFile,_PPMD_FILE* DecodedFile,
                             int MaxOrder,BOOL CutOff)

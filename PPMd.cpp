@@ -211,9 +211,9 @@ void _STDCALL PrintInfo(_PPMD_FILE* DecodedFile,_PPMD_FILE* EncodedFile)
     UINT m2=(10U*(UsedMemory-(m1 << 10))+(1 << 9)) >> 10;
     if (m2 == 10) { m1++;                   m2=0; }
     if ( !EncodeFlag )                      SWAP(NDec,NEnc);
-    sprintf(WrkStr,"%14s:%7d >%7d, %1d.%02d bpb, used:%3d.%1dMB, speed: %d KB/sec",
-            pFName,NDec,NEnc,n1,n2,m1,m2,Speed);
-    printf("%-79.79s\r",WrkStr);            fflush(stdout);
+    //sprintf(WrkStr,"%14s:%7d >%7d, %1d.%02d bpb, used:%3d.%1dMB, speed: %d KB/sec",
+    //        pFName,NDec,NEnc,n1,n2,m1,m2,Speed);
+    //printf("%-79.79s\r",WrkStr);            fflush(stdout);
 }
 static char* _STDCALL ChangeExtRare(const char* In,char* Out,const char* Ext)
 {
@@ -249,7 +249,7 @@ static FILE* FOpen(const char* FName,const char* mode)
 {
     FILE* fp=fopen(FName,mode);
     if ( !fp ) { printf(MTxt[0],FName);     exit(-1); }
-    setvbuf(fp,NULL,_IOFBF,1024*1024);        return fp;
+    setvbuf(fp,NULL,_IOFBF,32*1024*1024);        return fp;
 }
 inline void PrepareCoding(int SASize,FILE* fp)
 {
