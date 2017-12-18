@@ -115,10 +115,30 @@ inline T CLAMP(const T& X,const T& LoX,const T& HiX) { return (X >= LoX)?((X <= 
 
 /* PPMd module works with file streams via ...GETC/...PUTC macros only      */
 typedef FILE _PPMD_FILE;
-#define _PPMD_E_GETC(fp)   fgetc(fp)
-#define _PPMD_E_PUTC(c,fp) fputc((c),fp)
-#define _PPMD_D_GETC(fp)   fgetc(fp)
-#define _PPMD_D_PUTC(c,fp) fputc((c),fp)
+int prev1=0,prev2=0;
+#if 1
+#define _PPMD_E_GETC(fp)   getc_unlocked(fp)
+#define _PPMD_D_PUTC(c,fp) putc_unlocked((c),fp)
+#else
+int _PPMD_E_GETC(_PPMD_FILE *fp){
+	int c=getc_unlocked(fp);
+	if(c<0)return c;
+	int q=(prev2-c)&0xff;
+	prev2=prev1;
+	prev1=c;
+	return q;
+}
+int _PPMD_D_PUTC(int c,_PPMD_FILE *fp){
+	int q=(prev2-c)&0xff;
+	prev2=prev1;
+	prev1=q;
+	return putc_unlocked(q,fp);
+}
+#endif
+
+#define _PPMD_E_PUTC(c,fp) putc_unlocked((c),fp)
+#define _PPMD_D_GETC(fp)   getc_unlocked(fp)
+
 
 /// PPMd.h ///
 #ifdef  __cplusplus
@@ -983,6 +1003,7 @@ inline void ClearMask(_PPMD_FILE* EncodedFile,_PPMD_FILE* DecodedFile)
 void _STDCALL EncodeFile(_PPMD_FILE* EncodedFile,_PPMD_FILE* DecodedFile,
                             int MaxOrder,BOOL CutOff)
 {
+	prev1=prev2=0;
     rcInitEncoder();                        StartModelRare(MaxOrder,CutOff);
     for (PPM_CONTEXT* MinContext=MaxContext; ; ) {
         int c = _PPMD_E_GETC(DecodedFile);
@@ -1011,6 +1032,7 @@ STOP_ENCODING:
 void _STDCALL DecodeFile(_PPMD_FILE* DecodedFile,_PPMD_FILE* EncodedFile,
                             int MaxOrder,BOOL CutOff)
 {
+	prev1=prev2=0;
     rcInitDecoder(EncodedFile);             StartModelRare(MaxOrder,CutOff);
     for (PPM_CONTEXT* MinContext=MaxContext; ; ) {
         if ( MinContext->NumStats ) {
