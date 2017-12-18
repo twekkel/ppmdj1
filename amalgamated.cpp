@@ -1,3 +1,7 @@
+/// PPMd j1 (http://www.compression.ru/ds/) fixed for wrong optimization and amalgamated for atcoder ///
+#pragma GCC optimize("O3")
+#pragma GCC target("arch=corei7-avx")
+
 /****************************************************************************
  *  This file is part of PPMd project                                       *
  *  Written and distributed to public domain by Dmitry Shkarin 1997,        *
