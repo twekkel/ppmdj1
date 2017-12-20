@@ -1391,7 +1391,7 @@ int _main(int argc, const char *argv[])
 {
     assert(TestCompilation());
     char ArcName[260];
-    BOOL DeleteFile=FALSE, CutOff=FALSE;
+    BOOL DeleteFile=FALSE, CutOff=FALSE, Solid=FALSE;
     int i, MaxOrder=4, SASize=10;
     printf("Fast PPMII compressor for textual data, variant %c, " __DATE__ "\n",PROG_VAR);
     if (argc < 3) { printf(MTxt[6],SASize,MAX_O,MaxOrder);      return -1; }
@@ -1408,6 +1408,7 @@ int _main(int argc, const char *argv[])
             case 'O': MaxOrder=CLAMP(atoi(argv[i]+2),2,int(MAX_O));
                         break;
             case 'R': CutOff=CLAMP(atoi(argv[i]+2),0,1);        break;
+            case 'S': Solid=CLAMP(atoi(argv[i]+2),0,1);        break;
             default : printf(MTxt[5],argv[i]);   				return -1;
         }
     FILE_LIST_NODE* pNode, * pFirstNode=NULL, ** ppNode=&pFirstNode;
@@ -1426,7 +1427,7 @@ int _main(int argc, const char *argv[])
     }
     while ((pNode=pFirstNode) != NULL) {
         ENV_FIND_RESULT& efr=pNode->efr;
-        if ( EncodeFlag )                   EncodeFile(efr,MaxOrder,SASize,CutOff,ArcName);
+        if ( EncodeFlag )                   EncodeFile(efr,MaxOrder,SASize,CutOff,ArcName),(Solid&&(MaxOrder=1));
         else                                DecodeFile(efr);
         if ( DeleteFile )                   remove(efr.getFName());
         pNode->destroy(&pFirstNode);        
@@ -1454,7 +1455,7 @@ int main(){
 	if(mode=="encode"){
 		int N;
 		std::cin>>N;
-		std::vector<std::string>v={"PPMd","e","-m2048","-o3","-f"+arcname};
+		std::vector<std::string>v={"PPMd","e","-m256","-o3","-s1","-f"+arcname};
 		std::vector<std::pair<std::string,int>>args(N);
 		for(int i=0;i<N;i++)std::cin>>args[i].first>>args[i].second;
 		sort(args.begin(),args.end());
