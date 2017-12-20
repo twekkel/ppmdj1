@@ -1458,7 +1458,11 @@ int main(){
 		std::vector<std::string>v={"PPMd","e","-m256","-o3","-s1","-f"+arcname};
 		std::vector<std::pair<std::string,int>>args(N);
 		for(int i=0;i<N;i++)std::cin>>args[i].first>>args[i].second;
-		sort(args.begin(),args.end());
+		sort(args.begin(),args.end(),[](const auto &x,const auto &y){
+      //return x.first>y.first;
+      if(x.second!=y.second)return x.second<y.second;
+      return x.first>y.first;
+    });
 		for(int i=0;i<N;i++)v.push_back(args[i].first);
 		return main_wrap(v);
 	}else if(mode=="decode"){
