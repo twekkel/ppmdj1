@@ -1242,6 +1242,7 @@ static const char* const MTxt[] = { "Can`t open file %s\n",
     "\t-rN    - set method of model restoration at memory insufficiency:\n"
     "\t\t-r0 - restart model from scratch (default)\n"
     "\t\t-r1 - cut off model (slow)\n"
+    "\t-sN    - solid - [0,1], default: 0\n"
 };
 
 void _STDCALL PrintInfo(_PPMD_FILE* DecodedFile,_PPMD_FILE* EncodedFile)

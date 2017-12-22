@@ -193,6 +193,7 @@ static const char* const MTxt[] = { "Can`t open file %s\n",
     "\t-rN    - set method of model restoration at memory insufficiency:\n"
     "\t\t-r0 - restart model from scratch (default)\n"
     "\t\t-r1 - cut off model (slow)\n"
+    "\t-sN    - solid - [0,1], default: 0\n"
 };
 
 void _STDCALL PrintInfo(_PPMD_FILE* DecodedFile,_PPMD_FILE* EncodedFile)
@@ -342,7 +343,7 @@ int main(int argc, char *argv[])
 {
     assert(TestCompilation());
     char ArcName[260];
-    BOOL DeleteFile=FALSE, CutOff=FALSE;
+    BOOL DeleteFile=FALSE, CutOff=FALSE, Solid=FALSE;
     int i, MaxOrder=4, SASize=10;
     printf("Fast PPMII compressor for textual data, variant %c, " __DATE__ "\n",PROG_VAR);
     if (argc < 3) { printf(MTxt[6],SASize,MAX_O,MaxOrder);      return -1; }
@@ -359,6 +360,7 @@ int main(int argc, char *argv[])
             case 'O': MaxOrder=CLAMP(atoi(argv[i]+2),2,int(MAX_O));
                         break;
             case 'R': CutOff=CLAMP(atoi(argv[i]+2),0,1);        break;
+            case 'S': Solid=CLAMP(atoi(argv[i]+2),0,1);        break;
             default : printf(MTxt[5],argv[i]);   				return -1;
         }
     FILE_LIST_NODE* pNode, * pFirstNode=NULL, ** ppNode=&pFirstNode;
@@ -377,7 +379,7 @@ int main(int argc, char *argv[])
     }
     while ((pNode=pFirstNode) != NULL) {
         ENV_FIND_RESULT& efr=pNode->efr;
-        if ( EncodeFlag )                   EncodeFile(efr,MaxOrder,SASize,CutOff,ArcName);
+        if ( EncodeFlag )                   EncodeFile(efr,MaxOrder,SASize,CutOff,ArcName),(Solid&&(MaxOrder=1));
         else                                DecodeFile(efr);
         if ( DeleteFile )                   remove(efr.getFName());
         pNode->destroy(&pFirstNode);        
