@@ -2,6 +2,9 @@
 #pragma GCC optimize("O3")
 #pragma GCC target("arch=corei7-avx")
 
+#define FACTOR 20U
+//#define FACTOR 23U
+
 /****************************************************************************
  *  This file is part of PPMd project                                       *
  *  Written and distributed to public domain by Dmitry Shkarin 1997,        *
@@ -247,7 +250,7 @@ void _STDCALL StopSubAllocator() {
 }
 BOOL _STDCALL StartSubAllocator(UINT SASize)
 {
-    UINT t=SASize << 20U;
+    UINT t=SASize << FACTOR;
     if (SubAllocatorSize == t)              return TRUE;
     StopSubAllocator();
     if ((HeapStart = new _BYTE[t]) == NULL) return FALSE;
@@ -1456,7 +1459,7 @@ int main(){
 	if(mode=="encode"){
 		int N;
 		std::cin>>N;
-		std::vector<std::string>v={"PPMd","e","-m256","-o3","-s1","-f"+arcname};
+		std::vector<std::string>v={"PPMd","e","-m256","-o4","-s1","-f"+arcname};
 		std::vector<std::pair<std::string,int>>args(N);
 		for(int i=0;i<N;i++)std::cin>>args[i].first>>args[i].second;
 		sort(args.begin(),args.end(),[](const auto &x,const auto &y){
