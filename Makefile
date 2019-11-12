@@ -4,9 +4,9 @@ DEBUG = 0
 CPP_SET = $(PROJECT).cpp Model.cpp
 C_SET =
 
-CC = gcc-5
+CC = gcc
 LINK = gcc
-CODE_FLAGS = -m64 -march=corei7-avx -fno-exceptions -fno-rtti -pedantic -Wall \
+CODE_FLAGS = -march=native -fno-exceptions -fno-rtti -pedantic -Wall \
 	-Wno-unknown-pragmas
 LIBS = 	
 
